@@ -1,0 +1,55 @@
+<section class="food_section mt-10">
+  <div class="container">
+    <div class="connect-container">
+      <div class="connect-your-wallet" id="section-title">Transaction</div>
+      <center>
+        <br>
+        <div class="col-sm-6 border-1px-cyan--aqua rouded-corner-div cell">
+          <p class="start-by-creating" id="msg" style="display: none; font-size:10px"></p>
+          <p class="start-by-creating" id="confirmations" style="display: none; font-size:10px"></p>
+        </div>
+      </center>
+    </div>
+  </div>
+</section>
+<script>
+    var txHash = "{{hash}}";
+    window.onload = function () {
+    App.loadTransaction();
+    };
+App = {
+    loadTransaction:  async  () =>{
+      if(txHash){
+      $('#section-title').html('<br>Transaction Tracking');
+      $('#step').html('You have paid successfully');
+      $('#msg').html('<br>');
+      $('#msg').append('<p>Your transaction has been sent...</p><br>');
+      $('#msg').append('<p>Transaction hash : <a href = "https://testnet.bscscan.com/tx/' + txHash + '"><br>' + txHash + '</a> </p><br>');
+     // $('#msg').append('<p>Once transaction complete, your request will be reviewed by our team.</p>');
+      $('#msg').show();
+      var web3 = new Web3('https://data-seed-prebsc-2-s3.binance.org:8545')
+      let trx = await web3.eth.getTransaction(txHash)
+      const currentBlock = await web3.eth.getBlockNumber();
+      var confirmation = trx.blockNumber === null ? 0 : currentBlock - trx.blockNumber;
+      $('#confirmations').html('<p>Confirmations: ' + confirmation + '</p><br><br>');
+      $('#confirmations').show();
+      Toastify({
+          text: "Transaction confirmation #: " +  confirmation + " received.",
+          duration: 3000,
+          destination:"https://testnet.bscscan.com/tx/" + txHash ,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+          },
+          onClick: function () { }
+      }).showToast();
+    }
+    },
+  }
+
+</script>
+<br><br><br>
