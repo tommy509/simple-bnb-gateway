@@ -1,4 +1,4 @@
-# BIMAH CONTRACTS
+# SIMPLE BNB PAYMENT GATEWAY FOR MULTIVENDOR ECOMMERCE
 
 _This project is a simple centralized BNB/ETH payment gateway. It allows user to receive payments and splits received amount to different wallets._
 
